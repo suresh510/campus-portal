@@ -1,0 +1,72 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["STUDENT", "RECRUITER", "ADMIN"] },
+        "branch": { "type": "string" },
+        "cgpa": { "type": "number" },
+        "skills": { "type": "array", "items": { "type": "string" } },
+        "resumeUrl": { "type": "string" }
+      },
+      "required": ["id", "name", "email", "role"]
+    },
+    "Job": {
+      "title": "Job",
+      "description": "Job posting details",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "company": { "type": "string" },
+        "description": { "type": "string" },
+        "requirements": {
+          "type": "object",
+          "properties": {
+            "minCgpa": { "type": "number" },
+            "branches": { "type": "array", "items": { "type": "string" } },
+            "skills": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "salary": { "type": "string" },
+        "location": { "type": "string" },
+        "postedBy": { "type": "string" },
+        "postedAt": { "type": "string" },
+        "deadline": { "type": "string" }
+      },
+      "required": ["id", "title", "company", "postedBy"]
+    },
+    "Application": {
+      "title": "Application",
+      "description": "Student job application",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "jobId": { "type": "string" },
+        "studentId": { "type": "string" },
+        "status": { "type": "string", "enum": ["PENDING", "REVIEWING", "INTERVIEWING", "OFFERED", "REJECTED"] },
+        "appliedAt": { "type": "string" }
+      },
+      "required": ["id", "jobId", "studentId", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/jobs/{jobId}": {
+      "schema": "Job",
+      "description": "Job listings"
+    },
+    "/applications/{applicationId}": {
+      "schema": "Application",
+      "description": "Job applications"
+    }
+  }
+}
